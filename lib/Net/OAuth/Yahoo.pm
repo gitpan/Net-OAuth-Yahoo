@@ -15,11 +15,11 @@ Net::OAuth::Yahoo - Provides simple interface to access Yahoo! APIs
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 our $ERRMSG = undef;
 $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
 
@@ -44,8 +44,9 @@ $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
     # Second, fetch the OAuth URL to be presented to the user
     my $url = $oauth->request_auth( $request_token );
 
-    # Third, obtain the OAuth Verifier.  The real way is to present the $url to the end user, have them click on the "Agree" button, then obtain the OAuth Verifier.
-    # I wrote a simulator subroutine that does this, provided Yahoo ID and password.  If you go with the real way, you can skip this step.
+    # Third, obtain the OAuth Verifier.  The real way is to present the $url to the end user, have them click on the "Agree" button,
+    # then obtain the OAuth Verifier.  I wrote a simulator subroutine that does this, provided Yahoo ID and password.
+    # If you go with the real way, you can skip this step.
     my $yid = {
         "login" => login,
         "passwd" => passwd,
@@ -73,11 +74,13 @@ $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
     my $ret = $oauth->test_token( $token, $url );
     
     TESTS:
-    Due to the nature of this module, information such as consumer_key, consumer_secret is required.  I have provided test_deeply.pl in case the user wants to test the module deeply.
-    This test script prompts for various Net::OAuth information as well as Yahoo login / password.
+    Due to the nature of this module, information such as consumer_key, consumer_secret is required.  I have provided test_deeply.pl
+    in case the user wants to test the module deeply.  This test script prompts for various Net::OAuth information
+    as well as Yahoo login / password.
     
     DEBUGGING:
-    This module returns "undef" if something goes wrong.  Also, an error message is set in $Net::Oauth::Yahoo::ERRMSG.  The user can inspect like so:
+    This module returns "undef" if something goes wrong.  Also, an error message is set in $Net::Oauth::Yahoo::ERRMSG.
+    The user can inspect like so:
     my $request_token = $oauth->get_request_token();
     print $Net::OAuth::Yahoo::ERRMSG if ( !defined $request_token );
 
@@ -112,7 +115,8 @@ sub new {
 
 =head2 get_request_token
 
-    This method talks to the Yahoo! login server then returns the request_token.  No argument is needed as the object contains needed information.
+    This method talks to the Yahoo! login server then returns the request_token.  No argument is needed as the object contains
+    all the information it needs.
     my $request_token = $oauth->get_request_token();
 
 =cut

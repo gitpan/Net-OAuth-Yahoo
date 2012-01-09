@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Net-OAuth-Yahoo
-version:            0.01
+version:            0.02
 abstract:           Provides simple interface to access Yahoo! APIs
 author:
     - Satoshi Yagi <satoshi.yagi@yahoo.com>
