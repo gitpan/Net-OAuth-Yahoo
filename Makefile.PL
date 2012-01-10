@@ -13,6 +13,12 @@ WriteMakefile(
     PL_FILES            => {},
     PREREQ_PM => {
         'Test::More' => 0,
+        'LWP::UserAgent' => 0,
+        'Data::Dumper' => 0,
+        'Net::OAuth' => 0,
+        'URI::Escape' => 0,
+        'WWW::Mechanize' => 0,
+        'YAML::Syck' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Net-OAuth-Yahoo-*' },

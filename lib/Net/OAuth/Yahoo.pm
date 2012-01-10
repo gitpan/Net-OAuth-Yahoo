@@ -15,18 +15,18 @@ Net::OAuth::Yahoo - Provides simple interface to access Yahoo! APIs
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 our $ERRMSG = undef;
 $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
 
 =head1 SYNOPSIS
 
     use Net::OAuth::Yahoo;
-    
+
     # Construct hashref of OAuth information
     my $args = {
         "consumer_key" => "dj0yJmk9TUhIbnlZa0tYVDAzJmQ9WVdrOWMyMUxNVXBoTjJNbWNHbzlNVGd3TnpjMU5qazJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD1lNg--",
