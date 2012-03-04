@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Net-OAuth-Yahoo
-version:            0.03
+version:            0.04
 abstract:           Provides simple interface to access Yahoo! APIs
 author:
     - Satoshi Yagi <satoshi.yagi@yahoo.com>
@@ -11,18 +11,20 @@ configure_requires:
 build_requires:
     ExtUtils::MakeMaker:  0
 requires:
-    Data::Dumper:    0
-    LWP::UserAgent:  0
-    Net::OAuth:      0
-    Test::More:      0
-    URI::Escape:     0
-    WWW::Mechanize:  0
-    YAML::Syck:      0
+    Crypt::SSLeay:        0
+    Data::Dumper:         0
+    LWP::Protocol::https:  0
+    LWP::UserAgent:       0
+    Net::OAuth:           0
+    Test::More:           0
+    URI::Escape:          0
+    WWW::Mechanize:       0
+    YAML::Syck:           0
 no_index:
     directory:
         - t
         - inc
-generated_by:       ExtUtils::MakeMaker version 6.55_02
+generated_by:       ExtUtils::MakeMaker version 6.57_05
 meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
     version:  1.4

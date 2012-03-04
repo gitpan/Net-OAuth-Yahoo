@@ -15,11 +15,11 @@ Net::OAuth::Yahoo - Provides simple interface to access Yahoo! APIs
 
 =head1 VERSION
 
-Version 0.03
+Version 0.04
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 our $ERRMSG = undef;
 $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
 
