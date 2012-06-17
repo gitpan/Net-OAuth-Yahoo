@@ -19,7 +19,7 @@ Version 0.04
 
 =cut
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 our $ERRMSG = undef;
 $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
 
@@ -29,11 +29,11 @@ $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
 
     # Construct hashref of OAuth information
     my $args = {
-        "consumer_key" => "dj0yJmk9TUhIbnlZa0tYVDAzJmQ9WVdrOWMyMUxNVXBoTjJNbWNHbzlNVGd3TnpjMU5qazJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD1lNg--",
-        "consumer_secret" => "93dfc3e0bbeec0c63b86b6f9f3c55772e4f1fe26",
-        "signature_method" => "HMAC-SHA1",
-        "nonce" => "random_string",
-        "callback" => "oob",
+        consumer_key => "dj0yJmk9TUhIbnlZa0tYVDAzJmQ9WVdrOWMyMUxNVXBoTjJNbWNHbzlNVGd3TnpjMU5qazJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD1lNg--",
+        consumer_secret => "93dfc3e0bbeec0c63b86b6f9f3c55772e4f1fe26",
+        signature_method => "HMAC-SHA1",
+        nonce => "random_string",
+        callback => "oob",
     };
 
     my $oauth = Net::OAuth::Yahoo->new( $args );
@@ -48,8 +48,8 @@ $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
     # then obtain the OAuth Verifier.  I wrote a simulator subroutine that does this, provided Yahoo ID and password.
     # If you go with the real way, you can skip this step.
     my $yid = {
-        "login" => login,
-        "passwd" => passwd,
+        login => login,
+        passwd => passwd,
     };
     
     my $oauth_verifier = $oauth->sim_present_auth( $url, $yid );
@@ -90,11 +90,11 @@ $Net::OAuth::PROTOCOL_VERSION = Net::OAuth::PROTOCOL_VERSION_1_0A;
 
     This is the constructor.  Takes a hashref of the following keys, and returns the Net::OAuth::Yahoo object.
     my $args = {
-        "consumer_key" => "dj0yJmk9TUhIbnlZa0tYVDAzJmQ9WVdrOWMyMUxNVXBoTjJNbWNHbzlNVGd3TnpjMU5qazJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD1lNg--",
-        "consumer_secret" => "93dfc3e0bbeec0c63b86b6f9f3c55772e4f1fe26",
-        "signature_method" => "HMAC-SHA1",
-        "nonce" => "random_string",
-        "callback" => "oob",
+        consumer_key => "dj0yJmk9TUhIbnlZa0tYVDAzJmQ9WVdrOWMyMUxNVXBoTjJNbWNHbzlNVGd3TnpjMU5qazJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD1lNg--",
+        consumer_secret => "93dfc3e0bbeec0c63b86b6f9f3c55772e4f1fe26",
+        signature_method => "HMAC-SHA1",
+        nonce => "random_string",
+        callback => "oob",
     };
     my $oauth = Net::OAuth::Yahoo->new( $args );
 
@@ -105,10 +105,10 @@ sub new {
     my $self = bless {}, $class;
     
     $self->_validate_params( $args );
-    $self->{ "params" } = $args;
-    $self->{ "request_token_url" } = "https://api.login.yahoo.com/oauth/v2/get_request_token";
-    $self->{ "token_url" } = "https://api.login.yahoo.com/oauth/v2/get_token";
-    $self->{ "oauth" } = undef;
+    $self->{ params } = $args;
+    $self->{ request_token_url } = "https://api.login.yahoo.com/oauth/v2/get_request_token";
+    $self->{ token_url } = "https://api.login.yahoo.com/oauth/v2/get_token";
+    $self->{ oauth } = undef;
 
     return $self;
 }
@@ -124,16 +124,16 @@ sub new {
 sub get_request_token {
     my $self = shift;
     
-    $self->{ "oauth" } = undef; # clears anything that may have existed
-    $self->{ "oauth" }->{ "consumer_key" } = $self->{ "params" }->{ "consumer_key" };
-    $self->{ "oauth" }->{ "nonce" } = $self->{ "params" }->{ "nonce" };
-    $self->{ "oauth" }->{ "signature_method" } = $self->{ "params" }->{ "signature_method" };
-    $self->{ "oauth" }->{ "consumer_secret" } = $self->{ "params" }->{ "consumer_secret" };
-    $self->{ "oauth" }->{ "callback" } = $self->{ "params" }->{ "callback" };
-    my $url = $self->{ "request_token_url" };
-    $self->{ "request_token" } = $self->_make_oauth_request( "request token", $url );
+    $self->{ oauth } = undef; # clears anything that may have existed
+    $self->{ oauth }->{ consumer_key } = $self->{ params }->{ consumer_key };
+    $self->{ oauth }->{ nonce } = $self->{ params }->{ nonce };
+    $self->{ oauth }->{ signature_method } = $self->{ params }->{ signature_method };
+    $self->{ oauth }->{ consumer_secret } = $self->{ params }->{ consumer_secret };
+    $self->{ oauth }->{ callback } = $self->{ params }->{ callback };
+    my $url = $self->{ request_token_url };
+    $self->{ request_token } = $self->_make_oauth_request( "request token", $url );
 
-    return $self->{ "request_token" };
+    return $self->{ request_token };
 }
 
 =head2 get_token
@@ -151,18 +151,18 @@ sub get_token {
         return undef;
     }
     
-    $self->{ "oauth"} = undef;
-    $self->{ "oauth" }->{ "consumer_key" } = $self->{ "params" }->{ "consumer_key" };
-    $self->{ "oauth" }->{ "signature_method" } = $self->{ "params" }->{ "signature_method" };
-    $self->{ "oauth" }->{ "nonce" } = $self->{ "params" }->{ "nonce" };
-    $self->{ "oauth" }->{ "consumer_secret" } = $self->{ "params" }->{ "consumer_secret" };
-    $self->{ "oauth" }->{ "verifier" } = $oauth_verifier;
-    $self->{ "oauth" }->{ "token" } = $self->{ "request_token" }->{ "oauth_token" };
-    $self->{ "oauth" }->{ "token_secret" } = $self->{ "request_token" }->{ "oauth_token_secret" };
-    my $url = $self->{ "token_url" };
-    $self->{ "token" } = $self->_make_oauth_request( "access token", $url );
+    $self->{ oauth } = undef;
+    $self->{ oauth }->{ consumer_key } = $self->{ params }->{ consumer_key };
+    $self->{ oauth }->{ signature_method } = $self->{ params }->{ signature_method };
+    $self->{ oauth }->{ nonce } = $self->{ params }->{ nonce };
+    $self->{ oauth }->{ consumer_secret } = $self->{ params }->{ consumer_secret };
+    $self->{ oauth }->{ verifier } = $oauth_verifier;
+    $self->{ oauth }->{ token } = $self->{ request_token }->{ oauth_token };
+    $self->{ oauth }->{ token_secret } = $self->{ request_token }->{ oauth_token_secret };
+    my $url = $self->{ token_url };
+    $self->{ token } = $self->_make_oauth_request( "access token", $url );
     
-    return $self->{ "token" };
+    return $self->{ token };
 }
 
 =head2 access_api
@@ -181,13 +181,13 @@ sub access_api {
         return undef;
     }
     
-    $self->{ "oauth" } = undef;
-    $self->{ "oauth" }->{ "consumer_key" } = $self->{ "params" }->{ "consumer_key" };
-    $self->{ "oauth" }->{ "nonce" } = $self->{ "params" }->{ "nonce" };
-    $self->{ "oauth" }->{ "signature_method" } = $self->{ "params" }->{ "signature_method" };
-    $self->{ "oauth" }->{ "token" } = uri_unescape( $token->{ "oauth_token" } );
-    $self->{ "oauth" }->{ "token_secret" } = $token->{ "oauth_token_secret" };
-    $self->{ "oauth" }->{ "consumer_secret" } = $self->{ "params" }->{ "consumer_secret" };
+    $self->{ oauth } = undef;
+    $self->{ oauth }->{ consumer_key } = $self->{ params }->{ consumer_key };
+    $self->{ oauth }->{ nonce } = $self->{ params }->{ nonce };
+    $self->{ oauth }->{ signature_method } = $self->{ params }->{ signature_method };
+    $self->{ oauth }->{ token } = uri_unescape( $token->{ oauth_token } );
+    $self->{ oauth }->{ token_secret } = $token->{ oauth_token_secret };
+    $self->{ oauth }->{ consumer_secret } = $self->{ params }->{ consumer_secret };
 
     return $self->_make_oauth_request( "protected resource", $url );
 }
@@ -209,7 +209,7 @@ sub _make_oauth_request {
     my $ua = LWP::UserAgent->new;
     
     my $request = Net::OAuth->request($req_type)->new(
-        %{ $self->{ "oauth" } },
+        %{ $self->{ oauth } },
         request_method => "GET",
         request_url => $url,
         timestamp => time,
@@ -227,7 +227,7 @@ sub _make_oauth_request {
         my @args_array = split( /&/, $res->content );
         my $args_ref;
 
-        foreach ( @args_array ) {
+        for ( @args_array ) {
             my ( $k, $v ) = split( /=/, $_ );
             $args_ref->{$k} = $v;
         }
@@ -249,7 +249,7 @@ sub _validate_params {
     my @list = ( "consumer_key", "consumer_secret", "signature_method", "nonce", "callback" );
     my @keys = keys %{$args};
     
-    foreach my $required_key ( @list ) {
+    for my $required_key ( @list ) {
         unless ( grep( /^$required_key$/, @keys ) ) {
             $ERRMSG = "_validate_params() failed";
             return undef;
@@ -269,8 +269,8 @@ sub _validate_params {
 sub request_auth {
     my ( $self, $token ) = @_;
     
-    if ( defined $token->{ "xoauth_request_auth_url" } ) {
-        return uri_unescape( $token->{ "xoauth_request_auth_url" } );
+    if ( defined $token->{ xoauth_request_auth_url } ) {
+        return uri_unescape( $token->{ xoauth_request_auth_url } );
     }
     else {
         $ERRMSG = "request_auth() did not receive a valid request token";
@@ -294,7 +294,7 @@ sub request_auth {
 sub sim_present_auth {
     my ( $self, $url, $yid ) = @_;
     
-    unless ( defined $url && defined $yid->{ "login" } && defined $yid->{ "passwd" } ) {
+    unless ( defined $url && defined $yid->{ login } && defined $yid->{ passwd } ) {
         $ERRMSG = "sim_present_auth() did not receive correct set of params";
         return undef;
     }
@@ -305,8 +305,8 @@ sub sim_present_auth {
     $mech->submit_form (
         form_name => "login_form",
         fields => {
-            login => $yid->{ "login" },
-            passwd => $yid->{ "passwd" },
+            login => $yid->{ login },
+            passwd => $yid->{ passwd },
         },
     );
 
@@ -334,11 +334,11 @@ sub sim_present_auth {
 sub save_token {
     my ( $self, $file ) = @_;
     
-    unless ( defined $file && defined $self->{ "token" } ) {
+    unless ( defined $file && defined $self->{ token } ) {
         $ERRMSG = "save_token() did not receive filename or, object did not have a token";
         return undef;
     }
-    YAML::Syck::DumpFile( $file, $self->{ "token" } );
+    YAML::Syck::DumpFile( $file, $self->{ token } );
 }
 
 =head2 load_token
@@ -358,12 +358,12 @@ sub load_token {
     
     my $ref = YAML::Syck::LoadFile( $file );
     
-    unless ( defined $ref->{ "oauth_token" } && defined $ref->{ "oauth_token_secret" } ) {
+    unless ( defined $ref->{ oauth_token } && defined $ref->{ oauth_token_secret } ) {
         $ERRMSG = "load_token() token does not seem valid";
         return  undef;
     }
 
-    $self->{ "token" } = $ref;
+    $self->{ token } = $ref;
     return $ref;
 }
 
