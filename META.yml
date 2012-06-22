@@ -27,4 +27,4 @@ requires:
   URI::Escape: 0
   WWW::Mechanize: 0
   YAML::Syck: 0
-version: 0.05
+version: 0.06
